@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+
+    <bean id="musicPlayer" class="com.flomaster2.MusicPlayer" scope="prototype" init-method="musicPlayerInit">
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
+        <property name="musicList" ref="musicList"/>
+        <property name="genreList" value="#{'${musicPlayer.genreList}'.split(', ')}"/>
+    </bean>
+
+    <bean id="musicList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list value-type="com.flomaster2.Music">
+                <ref bean="classicalMusic"/>
+                <ref bean="rockMusic"/>
+                <ref bean="popMusic"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="classicalMusic" class="com.flomaster2.ClassicalMusic">
+        <property name="classicalMusicList">
+            <list value-type="java.lang.String">
+                <value>Hungarian Rhapsody</value>
+                <value>Moonlight Sonata</value>
+                <value>Carmen</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="rockMusic" class="com.flomaster2.RockMusic">
+        <property name="rockMusicList">
+            <list value-type ="java.lang.String">
+                <value>Wind cries Mary</value>
+                <value>Smells like Teen Spirit</value>
+                <value>In the end</value>
+                <value>Face the Day</value>
+                <value>Hold Me, Thrill Me, Kiss Me, Kill Me</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="popMusic" class="com.flomaster2.PopMusic">
+        <property name="popMusicList">
+            <list value-type ="java.lang.String">
+                <value>Oops! I did it again</value>
+                <value>Bad romance</value>
+                <value>Take on me</value>
+                <value>Big in Japan</value>
+            </list>
+        </property>
+    </bean>
+</beans>
